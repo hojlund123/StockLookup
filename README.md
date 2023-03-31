@@ -1,5 +1,5 @@
 # StockLookup
 
-```
-pip install Jinja2
-```
+Testing TradingView Lightweight Charts
+
+# Work in progress
