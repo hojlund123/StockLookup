@@ -17,32 +17,50 @@
 </div>
 </body>
 </html>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script src="https://unpkg.com/lightweight-charts@3.3.0/dist/lightweight-charts.standalone.production.js"></script>
 <script>
-   var ctx = document.getElementById('chart').getContext('2d');
-   var chart = new Chart(ctx, {
-       type: 'line',
-       data: {
-           labels: ['Open', 'High', 'Low', 'Close'],
-           datasets: [{
-               label: 'Stock Data',
-               data: [{{ open }}, {{ high }}, {{ low }}, {{ close }}],
-               backgroundColor: 'rgba(255, 99, 132, 0.2)',
-               borderColor: 'rgba(255, 99, 132, 1)',
-               borderWidth: 1
-           }]
-       },
-       options: {
-           scales: {
-               yAxes: [{
-                   ticks: {
-                       beginAtZero: true
-                   }
-               }]
-           }
-       }
-   });
+    var chart = LightweightCharts.createChart(document.getElementById('chart'), {
+        width: 600,
+        height: 300,
+        layout: {
+            backgroundColor: '#ffffff',
+            textColor: 'rgba(0, 0, 0, 0.9)',
+        },
+        grid: {
+            vertLines: {
+                color: 'rgba(197, 203, 206, 0.5)',
+            },
+            horzLines: {
+                color: 'rgba(197, 203, 206, 0.5)',
+            },
+        },
+        crosshair: {
+            mode: LightweightCharts.CrosshairMode.Normal,
+        },
+        rightPriceScale: {
+            borderColor: 'rgba(197, 203, 206, 0.8)',
+        },
+        timeScale: {
+            borderColor: 'rgba(197, 203, 206, 0.8)',
+        },
+    });
+
+    var candleSeries = chart.addCandlestickSeries({
+        upColor: '#00ff00',
+        downColor: '#ff0000',
+        borderUpColor: '#00ff00',
+        borderDownColor: '#ff0000',
+        wickUpColor: '#00ff00',
+        wickDownColor: '#ff0000',
+    });
+
+    var data = [
+        { time: "{{ datetime[0] }}", open: {{ open[0] }}, high: {{ high[0] }}, low: {{ low[0] }}, close: {{ close[0] }} },
+        { time: "{{ datetime[1] }}", open: {{ open[1] }}, high: {{ high[1] }}, low: {{ low[1] }}, close: {{ close[1] }} },
+        { time: "{{ datetime[2] }}", open: {{ open[2] }}, high: {{ high[2] }}, low: {{ low[2] }}, close: {{ close[2] }} },
+        { time: "{{ datetime[3] }}", open: {{ open[3] }}, high: {{ high[3] }}, low: {{ low[3] }}, close: {{ close[3] }} },
+        { time: "{{ datetime[4] }}", open: {{ open[4] }}, high: {{ high[4] }}, low: {{ low[4] }}, close: {{ close[4] }} },
+    ];
+
+    candleSeries.setData(data);
 </script>
